@@ -1,5 +1,5 @@
 # NewsBot Intelligence System 2.0
-### ITAI 2373 — Final Project | Houston Community College
+### ITAI 2373 — Final Project | Natural Lanuage Processing
 
 > A production-ready news analysis platform demonstrating advanced NLP techniques including
 > topic modeling, language model integration, multilingual analysis, and conversational AI —
