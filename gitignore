@@ -1,0 +1,43 @@
+# ── Secrets — NEVER commit these ─────────────────────────────────────────────
+config/api_keys.txt
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── Data — large files, not tracked in git ───────────────────────────────────
+data/raw/
+data/processed/
+data/models/
+data/results/
+*.csv
+*.pkl
+*.h5
+*.pt
+*.bin
+
+# ── Environments ──────────────────────────────────────────────────────────────
+.env
+.venv/
+venv/
+env/
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Reports (generated artifacts) ────────────────────────────────────────────
+reports/*.pdf

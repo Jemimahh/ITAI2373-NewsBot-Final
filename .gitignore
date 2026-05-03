@@ -1,0 +1,56 @@
+# NewsBot 2.0 — .gitignore
+
+# ── Secrets (NEVER commit these) ─────────────────────────────────────────
+.env
+kaggle.json
+*api_key*
+*secret*
+
+# ── Python ────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+newsbot_env/
+
+# ── Data (too large for git, download via Kaggle) ─────────────────────────
+data/raw/
+data/processed/
+data/models/
+data/results/
+
+# ── Jupyter ───────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── Model files ───────────────────────────────────────────────────────────
+*.pkl
+*.joblib
+*.bin
+*.h5
+*.pt
+*.pth
+
+# ── Generated outputs ─────────────────────────────────────────────────────
+*.png
+*.pdf
+lda_interactive.html
+newsbot_topic_modeling_results.csv
+
+# ── System ────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+
+# ── Test coverage ─────────────────────────────────────────────────────────
+.coverage
+htmlcov/
+.pytest_cache/

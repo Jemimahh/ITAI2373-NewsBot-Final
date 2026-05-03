@@ -1,159 +1,215 @@
 # NewsBot Intelligence System 2.0
-**ITAI 2373 — Final Project**  
-Advanced NLP Integration and Analysis Platform
+### ITAI 2373 — Final Project | Houston Community College
+
+> A production-ready news analysis platform demonstrating advanced NLP techniques including
+> topic modeling, language model integration, multilingual analysis, and conversational AI.
 
 ---
 
-## Overview
+## Project Overview
 
-NewsBot 2.0 is a production-ready news analysis platform that combines classical NLP techniques with local large language model inference. It classifies, summarizes, clusters, and converses about news articles — entirely offline, with no external API dependencies.
+NewsBot 2.0 extends the midterm pipeline into a full-stack NLP intelligence system built on
+the BBC News dataset (5 categories: tech, business, politics, sport, entertainment).
 
-Built on top of the NewsBot 1.0 midterm foundation, this system adds four integrated modules:
+The system integrates four major modules:
 
-| Module | Capability |
-|--------|-----------|
-| A — Content Analysis | Topic modeling (LDA/NMF), sentiment evolution, entity mapping |
-| B — Language Models | Summarization, insight generation, semantic search via local Llama |
-| C — Multilingual | Language detection, translation, cross-lingual analysis |
-| D — Conversational Interface | Natural language queries, intent parsing, interactive exploration |
+| Module | Capability | Key Techniques |
+|--------|-----------|----------------|
+| **A** | Advanced Content Analysis | LDA, NMF, K-Means clustering |
+| **B** | Language Understanding & Generation | LLM summarization, Q&A, insights |
+| **C** | Multilingual Intelligence | Language detection, translation |
+| **D** | Conversational Interface | Intent classification, context management |
 
-> **Local-first design:** Module B uses [ollama](https://ollama.com/) to run Llama 3.2 locally on CPU. No OpenAI key required.
+---
+
+## System Architecture
+
+```
+NewsBot 2.0
+│
+├── Data Layer          BBC News Dataset (Kaggle) → raw/ → processed/
+├── Analysis Engine     Preprocessing → TF-IDF → POS → Sentiment → NER → Topics
+├── LLM Layer           ollama (llama3.2) for summarization, Q&A, insight generation
+├── Multilingual Layer  langdetect + deep-translator for cross-language analysis
+├── Conversation Layer  Intent classification → context-aware response generation
+└── Interface           Web app (HTML/JS/React) + Jupyter notebooks
+```
+
+---
+
+## Repository Structure
+
+```
+ITAI2373-NewsBot-Final/
+├── README.md                        # This file
+├── requirements.txt                 # All dependencies with versions
+├── config/
+│   ├── settings.py                  # Central configuration
+│   └── api_keys_template.txt        # API key setup guide (no real keys)
+├── src/
+│   ├── data_processing/
+│   │   ├── text_preprocessor.py     # Enhanced from midterm
+│   │   ├── feature_extractor.py     # TF-IDF, embeddings, custom features
+│   │   └── data_validator.py        # Data quality checks
+│   ├── analysis/
+│   │   ├── classifier.py            # Multi-class news classifier
+│   │   ├── sentiment_analyzer.py    # VADER + enhanced sentiment
+│   │   ├── ner_extractor.py         # Named entity recognition
+│   │   └── topic_modeler.py         # LDA + NMF implementation
+│   ├── language_models/
+│   │   ├── summarizer.py            # Abstractive summarization
+│   │   ├── generator.py             # Content enhancement & generation
+│   │   └── embeddings.py            # Semantic similarity
+│   ├── multilingual/
+│   │   ├── translator.py            # Translation workflows
+│   │   ├── language_detector.py     # Language identification
+│   │   └── cross_lingual_analyzer.py
+│   ├── conversation/
+│   │   ├── query_processor.py       # NL query handling
+│   │   ├── intent_classifier.py     # Intent detection
+│   │   └── response_generator.py    # Response generation
+│   └── utils/
+│       ├── visualization.py         # Plotting utilities
+│       ├── evaluation.py            # Model evaluation
+│       └── export.py                # Report generation
+├── notebooks/
+│   ├── 01_Data_Exploration.ipynb
+│   ├── 02_Advanced_Classification.ipynb
+│   ├── 03_Topic_Modeling.ipynb      # Module A
+│   ├── 04_Language_Models.ipynb     # Module B
+│   ├── 05_Multilingual_Analysis.ipynb
+│   ├── 06_Conversational_Interface.ipynb
+│   └── 07_System_Integration.ipynb
+├── tests/
+│   ├── test_preprocessing.py
+│   ├── test_classification.py
+│   ├── test_topic_modeling.py
+│   └── test_integration.py
+├── data/
+│   ├── raw/           # Original BBC dataset (not committed — see Setup)
+│   ├── processed/     # Cleaned DataFrames
+│   ├── models/        # Serialized model files
+│   └── results/       # Analysis outputs and visualizations
+└── docs/
+    ├── technical_documentation.md
+    ├── user_guide.md
+    ├── api_reference.md
+    └── deployment_guide.md
+```
 
 ---
 
 ## Quick Start
 
-### 1. Clone and install
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/ITAI2373-NewsBot-Final.git
-cd ITAI2373-NewsBot-Final
+git clone https://github.com/YOUR_USERNAME/Student-Portfolio-Repository.git
+cd Student-Portfolio-Repository/ITAI2373-NewsBot-Final
+```
+
+### 2. Install dependencies
+
+```bash
 pip install -r requirements.txt
+python -m spacy download en_core_web_sm
 ```
 
-### 2. Set up ollama (for Module B)
+### 3. Set up ollama (for Module B LLM features)
 
 ```bash
-# Install ollama: https://ollama.com/download
-ollama pull llama3.2        # ~2GB, runs on CPU
-ollama serve                # keep running in a separate terminal
+# Install ollama: https://ollama.ai
+ollama pull llama3.2
+ollama serve   # runs on localhost:11434
 ```
 
-### 3. Configure API keys (optional)
+### 4. Download the BBC dataset
 
 ```bash
-cp config/api_keys_template.txt config/api_keys.txt
-# Edit api_keys.txt with any optional keys (e.g. translation APIs)
+# Option A: Kaggle CLI
+kaggle datasets download -d shivamkushwaha/bbc-full-text-document-classification --unzip -p data/raw/
+
+# Option B: Manual download from https://www.kaggle.com/datasets/shivamkushwaha/bbc-full-text-document-classification
+# Place the CSV in data/raw/
 ```
 
-### 4. Run the notebooks in order
+### 5. Run the notebooks in order
 
-```
-notebooks/01_Data_Exploration.ipynb       ← start here
-notebooks/02_Advanced_Classification.ipynb
-notebooks/03_Topic_Modeling.ipynb
-notebooks/04_Language_Models.ipynb        ← Module B demo
-notebooks/05_Multilingual_Analysis.ipynb
-notebooks/06_Conversational_Interface.ipynb
-notebooks/07_System_Integration.ipynb     ← full pipeline
-```
+Open in Google Colab or Jupyter Lab and run notebooks `01` through `07` sequentially.
+Each notebook picks up `df_final` from the previous one.
 
 ---
 
-## Project Structure
+## Module Descriptions
 
-```
-ITAI2373-NewsBot-Final/
-├── README.md
-├── requirements.txt
-├── config/
-│   ├── settings.py              # Centralized configuration
-│   └── api_keys_template.txt    # Template — never commit real keys
-├── src/
-│   ├── data_processing/
-│   │   ├── text_preprocessor.py
-│   │   ├── feature_extractor.py
-│   │   └── data_validator.py
-│   ├── analysis/
-│   │   ├── classifier.py
-│   │   ├── sentiment_analyzer.py
-│   │   ├── ner_extractor.py
-│   │   └── topic_modeler.py
-│   ├── language_models/         ← Module B
-│   │   ├── summarizer.py        # NewsSummarizer
-│   │   ├── generator.py         # ContentGenerator
-│   │   └── embeddings.py        # ArticleEmbedder
-│   ├── multilingual/
-│   │   ├── translator.py
-│   │   ├── language_detector.py
-│   │   └── cross_lingual_analyzer.py
-│   ├── conversation/
-│   │   ├── query_processor.py
-│   │   ├── intent_classifier.py
-│   │   └── response_generator.py
-│   └── utils/
-│       ├── visualization.py
-│       ├── evaluation.py
-│       └── export.py
-├── notebooks/                   # 7 annotated Jupyter notebooks
-├── tests/                       # Unit tests
-├── data/
-│   ├── raw/                     # Original BBC News dataset
-│   ├── processed/               # Cleaned data
-│   ├── models/                  # Saved model files
-│   └── results/                 # Analysis outputs
-├── docs/                        # Technical and user documentation
-└── reports/                     # Executive summary, technical report
-```
+### Module A — Topic Modeling (`03_Topic_Modeling.ipynb`)
+- LDA (Latent Dirichlet Allocation) with perplexity evaluation
+- NMF (Non-negative Matrix Factorization) with reconstruction error
+- Topic evolution heatmaps across BBC categories
+- K-Means content clustering with silhouette analysis
+- Interactive pyLDAvis visualization
+
+### Module B — Language Models (`04_Language_Models.ipynb`)
+- Abstractive summarization via llama3.2/ollama
+- Contextual content enhancement (background, trends, implications)
+- Multi-turn article Q&A with `ArticleQueryEngine`
+- Structured insight generation with recommended queries
+- Web application frontend (see `NewsBot_IntelligenceSystem_2.html`)
+
+### Module C — Multilingual (`05_Multilingual_Analysis.ipynb`)
+- Language detection with `langdetect`
+- Translation via `deep-translator` (Google Translate API wrapper)
+- Cross-lingual sentiment and entity comparison
+- Multi-language topic distribution analysis
+
+### Module D — Conversational Interface (`06_Conversational_Interface.ipynb`)
+- Rule + embedding hybrid intent classifier
+- Context-aware response generation
+- Query expansion using topic model vocabulary
+- Session history management
 
 ---
 
-## System Requirements
+## Key Results
 
-| Component | Minimum | Recommended |
-|-----------|---------|-------------|
-| Python | 3.10+ | 3.11+ |
-| RAM | 8 GB | 16 GB |
-| Storage | 5 GB | 10 GB |
-| GPU | Not required | Optional (speeds up Module B) |
-
-**CPU performance estimates (Module B, llama3.2:3b):**
-- Summarization: ~8–15 sec/article
-- Insight generation (10 articles): ~30–60 sec
-- Embeddings (sentence-transformers): <1 sec/article
+| Metric | Value |
+|--------|-------|
+| Dataset | BBC News, 2,225 articles, 5 categories |
+| LDA Perplexity | *Run notebook to generate* |
+| NMF Reconstruction Error | *Run notebook to generate* |
+| Clustering Silhouette Score | *Run notebook to generate* |
+| Supported Languages (Module C) | 10+ via deep-translator |
 
 ---
 
-## Dataset
+## Dependencies
 
-This project uses the **BBC News Dataset** (BBC, 2004–2005), containing 2,225 articles across 5 categories: business, entertainment, politics, sport, tech.
-
-Place the raw data at `data/raw/bbc/` before running notebooks.
-
----
-
-## Module B: Local LLM Design Decision
-
-Module B uses two different local models intentionally:
-
-**Llama 3.2 (via ollama)** handles generative tasks — summarization, content enhancement, insight generation, and query understanding — where language fluency matters.
-
-**sentence-transformers** (`all-MiniLM-L6-v2`) handles embeddings and semantic search. Dedicated embedding models produce significantly better similarity scores than using a generative model's hidden states, and run ~10x faster on CPU.
+See `requirements.txt` for pinned versions. Core libraries:
+`spacy`, `scikit-learn`, `nltk`, `vaderSentiment`, `ollama`,
+`pyLDAvis`, `langdetect`, `deep-translator`, `matplotlib`, `seaborn`, `pandas`, `numpy`
 
 ---
 
 ## Individual Contributions
 
-See `docs/individual_contributions.md` for a breakdown of contributions per team member.
+*[Update this section with your team's actual contribution breakdown]*
+
+| Member | Modules | Key Contributions |
+|--------|---------|-------------------|
+| Jemima Egwurube | A, B, Integration | Topic modeling, LLM pipeline, web frontend |
+
+See `docs/individual_contributions.md` for full breakdown.
 
 ---
 
 ## Academic Integrity
 
-All core NLP components are original implementations. External libraries are documented in `requirements.txt`. AI assistance (GitHub Copilot, Claude) was used for boilerplate generation and is disclosed per HCC policy.
+All core NLP implementations are original work. External libraries are attributed in
+`requirements.txt` and inline code comments. AI assistance (Claude) was used for
+scaffolding and debugging, documented per course policy.
 
 ---
 
 ## License
 
-For academic use only. Dataset © BBC.
+For academic use only — ITAI 2373, Houston Community College.
